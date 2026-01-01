@@ -1,0 +1,9 @@
+package(default_visibility = ["//visibility:public"])
+
+java_binary(
+    name = "travelvac-service",
+    srcs = glob([
+        "src/main/java/itollu/travelvac/service/app/*.java"
+    ]),
+    main_class = "itollu.travelvac.service.app.TravelvacApp",
+)
