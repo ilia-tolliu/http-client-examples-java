@@ -1,0 +1,5 @@
+ build \
+    --java_language_version=25 \
+    --java_runtime_version=remotejdk_25 \
+    --tool_java_language_version=25 \
+    --tool_java_runtime_version=25
