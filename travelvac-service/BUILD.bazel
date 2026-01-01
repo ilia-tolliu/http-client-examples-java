@@ -6,4 +6,7 @@ java_binary(
         "src/main/java/itollu/travelvac/service/app/*.java"
     ]),
     main_class = "itollu.travelvac.service.app.TravelvacApp",
+    deps = [
+        "@maven//:io_undertow_undertow_core"
+    ],
 )
