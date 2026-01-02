@@ -18,8 +18,6 @@ public class GetStatus implements HttpHandler {
 
   @Override
   public void handleRequest(HttpServerExchange exchange) throws Exception {
-    applyContentTypeJson(exchange);
-
     Map<String, Object> response = Map.of(
       "status", "OK",
       "hello", "World",
