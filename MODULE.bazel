@@ -4,6 +4,7 @@ bazel_dep(name = "rules_jvm_external", version = "6.9")
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
     artifacts = [
+        "ch.qos.logback:logback-classic:1.5.23",
         "io.undertow:undertow-core:2.3.20.Final",
         "org.slf4j:slf4j-api:2.0.17"
     ],

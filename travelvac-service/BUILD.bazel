@@ -4,7 +4,9 @@ package(default_visibility = ["//visibility:private"])
 java_binary(
   name = "travelvac-service",
   runtime_deps = [
+    "@maven//:ch_qos_logback_logback_classic",
     "//travelvac-service/src/main/java/itollu/travelvac/service/app",
+    "//travelvac-service/src/main/resources",
   ],
   main_class = "itollu.travelvac.service.app.TravelvacApp",
 )
