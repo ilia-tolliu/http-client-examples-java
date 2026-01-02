@@ -2,6 +2,7 @@ java_library(
   name = "app",
   srcs = glob(["*.java"]),
   deps = [
+    "@maven//:com_fasterxml_jackson_core_jackson_databind",
     "@maven//:io_undertow_undertow_core",
     "//travelvac-service/src/main/java/itollu/travelvac/service/handlers"
   ],

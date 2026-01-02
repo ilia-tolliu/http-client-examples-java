@@ -1,14 +1,32 @@
 package itollu.travelvac.service.handlers;
 
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.util.Headers;
+
+import static itollu.travelvac.service.handlers.HandlerUtils.applyContentTypeJson;
 
 public class GetStatus implements HttpHandler {
+  private final JsonMapper json;
+
+  public GetStatus(JsonMapper json) {
+    this.json = json;
+  }
 
   @Override
-  public void handleRequest(HttpServerExchange exchange) {
-    exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
-    exchange.getResponseSender().send("Hello World!");
+  public void handleRequest(HttpServerExchange exchange) throws Exception {
+    applyContentTypeJson(exchange);
+
+    Map<String, Object> response = Map.of(
+      "status", "OK",
+      "hello", "World"
+    );
+
+    String jsonResponse = json.writeValueAsString(response);
+
+    applyContentTypeJson(exchange);
+    exchange.getResponseSender().send(jsonResponse);
   }
 }

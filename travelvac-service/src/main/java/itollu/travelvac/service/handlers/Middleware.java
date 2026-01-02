@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.accesslog.AccessLogHandler;
 
-public class Handlers {
+public class Middleware {
   private static final Logger LOG = LoggerFactory.getLogger("itollu.travelvac.service");
 
   public static AccessLogHandler withLogging(HttpHandler handler) {
