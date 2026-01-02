@@ -9,12 +9,6 @@ public class Routes {
 
   public static RoutingHandler buildRouter() {
     return routing()
-      .get(
-        "status",
-        exchange -> {
-          exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
-          exchange.getResponseSender().send("Hello World!");
-        }
-      );
+      .get("status", new GetStatus());
   }
 }
