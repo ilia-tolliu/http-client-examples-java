@@ -1,0 +1,20 @@
+package itollu.travelvac.service.handlers;
+
+import io.undertow.server.RoutingHandler;
+import io.undertow.util.Headers;
+
+import static io.undertow.Handlers.routing;
+
+public class Routes {
+
+  public static RoutingHandler buildRouter() {
+    return routing()
+      .get(
+        "status",
+        exchange -> {
+          exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
+          exchange.getResponseSender().send("Hello World!");
+        }
+      );
+  }
+}

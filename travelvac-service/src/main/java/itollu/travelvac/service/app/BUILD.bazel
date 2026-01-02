@@ -1,0 +1,11 @@
+java_library(
+  name = "app",
+  srcs = glob(["*.java"]),
+  deps = [
+    "@maven//:io_undertow_undertow_core",
+    "//travelvac-service/src/main/java/itollu/travelvac/service/handlers"
+  ],
+  visibility = [
+    "//travelvac-service:__pkg__",
+  ],
+)

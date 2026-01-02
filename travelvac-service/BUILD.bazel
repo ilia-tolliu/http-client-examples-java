@@ -1,12 +1,10 @@
-package(default_visibility = ["//visibility:public"])
+package(default_visibility = ["//visibility:private"])
 
+# build executable fat jar with: `bazel build //travelvac-service:travelvac-service_deploy.jar`
 java_binary(
-    name = "travelvac-service",
-    srcs = glob([
-        "src/main/java/itollu/travelvac/service/app/*.java"
-    ]),
-    main_class = "itollu.travelvac.service.app.TravelvacApp",
-    deps = [
-        "@maven//:io_undertow_undertow_core"
-    ],
+  name = "travelvac-service",
+  runtime_deps = [
+    "//travelvac-service/src/main/java/itollu/travelvac/service/app",
+  ],
+  main_class = "itollu.travelvac.service.app.TravelvacApp",
 )
