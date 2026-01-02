@@ -1,7 +1,11 @@
 package itollu.travelvac.service.app;
 
+import java.util.TimeZone;
+
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.undertow.Undertow;
 import itollu.travelvac.service.handlers.Routes;
 
@@ -29,8 +33,13 @@ public class TravelvacApp {
   }
 
   static JsonMapper configureJsonMapper() {
+    var dateFormat = new StdDateFormat()
+      .withTimeZone(TimeZone.getTimeZone("UTC"));
+
     return new JsonMapper().rebuild()
       .enable(SerializationFeature.INDENT_OUTPUT) // pretty print
+      .addModule(new JavaTimeModule())
+      .defaultDateFormat(dateFormat)
       .build();
   }
 }

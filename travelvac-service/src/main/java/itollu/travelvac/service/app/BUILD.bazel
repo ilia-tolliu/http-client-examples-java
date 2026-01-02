@@ -3,6 +3,7 @@ java_library(
   srcs = glob(["*.java"]),
   deps = [
     "@maven//:com_fasterxml_jackson_core_jackson_databind",
+    "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
     "@maven//:io_undertow_undertow_core",
     "//travelvac-service/src/main/java/itollu/travelvac/service/handlers"
   ],

@@ -1,5 +1,6 @@
 package itollu.travelvac.service.handlers;
 
+import java.time.Instant;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -21,7 +22,8 @@ public class GetStatus implements HttpHandler {
 
     Map<String, Object> response = Map.of(
       "status", "OK",
-      "hello", "World"
+      "hello", "World",
+      "at", Instant.now()
     );
 
     String jsonResponse = json.writeValueAsString(response);
