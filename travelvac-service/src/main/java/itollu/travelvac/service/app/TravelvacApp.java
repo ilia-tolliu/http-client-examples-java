@@ -8,8 +8,10 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.undertow.Undertow;
 import itollu.travelvac.service.handlers.Routes;
+
 import static itollu.travelvac.service.handlers.Middleware.withExceptionHandler;
 import static itollu.travelvac.service.handlers.Middleware.withLogging;
+import static itollu.travelvac.service.handlers.Middleware.withRequestId;
 
 public class TravelvacApp {
 
@@ -23,10 +25,12 @@ public class TravelvacApp {
     Undertow server = Undertow.builder()
       .addHttpListener(8080, "localhost")
       .setHandler(
-        withExceptionHandler(
-          json,
-          withLogging(
-            router
+        withRequestId(
+          withExceptionHandler(
+            json,
+            withLogging(
+              router
+            )
           )
         )
       )
