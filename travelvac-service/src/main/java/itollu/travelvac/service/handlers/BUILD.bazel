@@ -2,6 +2,7 @@ java_library(
   name = "handlers",
   srcs = glob(["*.java"]),
   deps = [
+    "@maven//:com_fasterxml_jackson_core_jackson_core",
     "@maven//:com_fasterxml_jackson_core_jackson_databind",
     "@maven//:io_undertow_undertow_core",
     "@maven//:org_slf4j_slf4j_api",

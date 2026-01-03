@@ -7,6 +7,7 @@ maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
     artifacts = [
         "ch.qos.logback:logback-classic:1.5.23",
+        "com.fasterxml.jackson.core:jackson-core:%s" % VERSION_JACKSON,
         "com.fasterxml.jackson.core:jackson-databind:%s" % VERSION_JACKSON,
         "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:%s" % VERSION_JACKSON,
         "io.undertow:undertow-core:2.3.20.Final",
