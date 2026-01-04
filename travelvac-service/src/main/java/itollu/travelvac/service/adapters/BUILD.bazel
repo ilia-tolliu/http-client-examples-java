@@ -1,0 +1,10 @@
+java_library(
+  name = "adapters",
+  srcs = glob(["*.java"]),
+  deps = [
+      "//travelvac-service/src/main/java/itollu/travelvac/service/core"
+    ],
+  visibility = [
+      "//travelvac-service:__subpackages__",
+  ],
+)
