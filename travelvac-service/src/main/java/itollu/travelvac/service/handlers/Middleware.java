@@ -30,6 +30,7 @@ public class Middleware {
   public static ExceptionHandler withExceptionHandler(JsonMapper json, HttpHandler handler) {
     var exceptionHandler = new ExceptionHandler(handler);
 
+    exceptionHandler.addExceptionHandler(ClientException.class, new ClientExceptionHandler(json));
     exceptionHandler.addExceptionHandler(Throwable.class, new InternalServerErrorHandler());
 
     return exceptionHandler;
