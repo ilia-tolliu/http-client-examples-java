@@ -6,6 +6,7 @@ java_library(
     "@maven//:com_fasterxml_jackson_core_jackson_databind",
     "@maven//:io_undertow_undertow_core",
     "@maven//:org_slf4j_slf4j_api",
+    "//travelvac-service/src/main/java/itollu/travelvac/service/core"
   ],
   visibility = [
       "//travelvac-service:__subpackages__",
