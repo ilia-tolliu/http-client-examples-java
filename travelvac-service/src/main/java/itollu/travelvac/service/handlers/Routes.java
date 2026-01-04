@@ -27,7 +27,7 @@ public class Routes {
     public RoutingHandler buildRouter() {
         return routing()
                 .get("status", new GetStatus(json))
-                .get("destination/{country}/risks", new GetRisks(riskService, json))
-                .get("residence/{country}/clinics", new GetClinics(clinicService, json));
+                .get("countries/{country}/risks", new GetRisks(riskService, json))
+                .get("countries/{country}/clinics", new GetClinics(clinicService, json));
     }
 }
