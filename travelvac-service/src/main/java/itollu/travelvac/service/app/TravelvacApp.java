@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.undertow.Undertow;
+import itollu.travelvac.service.adapters.RiskRepositoryDemo;
+import itollu.travelvac.service.core.RiskService;
 import itollu.travelvac.service.handlers.Routes;
 
 import static itollu.travelvac.service.handlers.Middleware.withExceptionHandler;
@@ -18,8 +20,11 @@ public class TravelvacApp {
   static void main() {
     System.out.println("Hello from Travelvac!");
 
+    var riskRepository = new RiskRepositoryDemo();
+    var riskService = new RiskService(riskRepository);
+
     JsonMapper json = configureJsonMapper();
-    Routes routes = new Routes(json);
+    Routes routes = new Routes(json, riskService);
     var router = routes.buildRouter();
 
     Undertow server = Undertow.builder()
