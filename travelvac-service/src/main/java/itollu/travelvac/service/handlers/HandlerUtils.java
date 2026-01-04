@@ -6,16 +6,19 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
 import io.undertow.util.PathTemplateMatch;
+import itollu.travelvac.service.core.CountryCode;
+import itollu.travelvac.service.core.IllegalDomainValue;
 
 import java.io.IOException;
 import java.util.Objects;
 
-import static io.undertow.util.StatusCodes.UNAUTHORIZED;
-import static io.undertow.util.StatusCodes.UNSUPPORTED_MEDIA_TYPE;
+import static io.undertow.util.StatusCodes.*;
 
 public class HandlerUtils {
 
     private static final String APPLICATION_JSON = "application/json";
+
+    private static final String COUNTRY_PATH_PARAM = "country";
 
     static void applyContentTypeJson(HttpServerExchange exchange) {
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, APPLICATION_JSON);
@@ -77,5 +80,14 @@ public class HandlerUtils {
         }
 
         return param;
+    }
+
+    static CountryCode parseCountry(HttpServerExchange exchange) {
+        var countryParam = requirePathParam(COUNTRY_PATH_PARAM, exchange);
+        try {
+            return new CountryCode(countryParam);
+        } catch (IllegalDomainValue e) {
+            throw new ClientException(BAD_REQUEST, e.getMessage());
+        }
     }
 }
