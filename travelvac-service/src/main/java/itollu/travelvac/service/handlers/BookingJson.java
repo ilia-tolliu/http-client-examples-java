@@ -1,0 +1,27 @@
+package itollu.travelvac.service.handlers;
+
+import itollu.travelvac.service.core.Booking;
+
+import java.time.Instant;
+import java.util.List;
+
+record BookingJson (
+    String bookingId,
+    String customerId,
+    String reference,
+    String clinicId,
+    List<String> infections,
+    Instant createdAt
+) {
+    static BookingJson fromBooking(Booking booking) {
+        return new BookingJson(
+                booking.bookingId().format(),
+                booking.customerId().format(),
+                booking.reference(),
+                booking.clinicId().format(),
+                booking.infections(),
+                booking.createdAt()
+        );
+    }
+}
+
