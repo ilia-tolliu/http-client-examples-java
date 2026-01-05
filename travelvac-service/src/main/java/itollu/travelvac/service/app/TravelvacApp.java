@@ -29,21 +29,12 @@ public class TravelvacApp {
     var clinicService = new ClinicService(clinicRepository);
 
     JsonMapper json = configureJsonMapper();
-    Routes routes = new Routes(json, riskService, clinicService);
-    var router = routes.buildRouter();
+
+    var handler = new TravelvacHandler(json, riskService, clinicService);
 
     Undertow server = Undertow.builder()
       .addHttpListener(8080, "localhost")
-      .setHandler(
-        withRequestId(
-          withExceptionHandler(
-            json,
-            withLogging(
-              router
-            )
-          )
-        )
-      )
+      .setHandler(handler)
       .build();
 
     server.start();
