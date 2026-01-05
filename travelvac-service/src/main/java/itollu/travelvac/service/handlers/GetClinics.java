@@ -8,7 +8,7 @@ import itollu.travelvac.service.core.ClinicService;
 import java.util.Map;
 
 import static itollu.travelvac.service.handlers.AuthUtils.authenticate;
-import static itollu.travelvac.service.handlers.HandlerUtils.parseCountry;
+import static itollu.travelvac.service.handlers.HandlerUtils.parseCountryCode;
 import static itollu.travelvac.service.handlers.HandlerUtils.writeJsonBody;
 
 public class GetClinics implements HttpHandler {
@@ -25,7 +25,7 @@ public class GetClinics implements HttpHandler {
     @Override
     public void handleRequest(HttpServerExchange exchange) {
         var customerId = authenticate(exchange);
-        var country = parseCountry(exchange);
+        var country = parseCountryCode(exchange);
         var risks = clinicService.getClinics(customerId, country);
         var responseBody = Map.of(
                 "clinics", risks

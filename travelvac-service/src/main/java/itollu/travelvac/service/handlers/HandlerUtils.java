@@ -22,8 +22,7 @@ public class HandlerUtils {
 
     private static final String APPLICATION_JSON = "application/json";
 
-    private static final String COUNTRY_PATH_PARAM = "countryCode";
-
+    private static final String COUNTRY_CODE_PATH_PARAM = "countryCode";
 
     static void applyContentTypeJson(HttpServerExchange exchange) {
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, APPLICATION_JSON);
@@ -95,10 +94,10 @@ public class HandlerUtils {
         return param;
     }
 
-    static CountryCode parseCountry(HttpServerExchange exchange) {
-        var countryParam = requirePathParam(COUNTRY_PATH_PARAM, exchange);
+    static CountryCode parseCountryCode(HttpServerExchange exchange) {
+        var countryCodeParam = requirePathParam(COUNTRY_CODE_PATH_PARAM, exchange);
         try {
-            return new CountryCode(countryParam);
+            return new CountryCode(countryCodeParam);
         } catch (IllegalDomainValue e) {
             throw new ClientException(BAD_REQUEST, e.getMessage());
         }

@@ -24,13 +24,13 @@ public class GetRisks implements HttpHandler {
     @Override
     public void handleRequest(HttpServerExchange exchange) {
         var customerId = authenticate(exchange);
-        var country = parseCountry(exchange);
+        var country = parseCountryCode(exchange);
         var risks = riskService.getRisks(customerId, country);
         var responseBody = Map.of(
                 "risks", risks
         );
-        writeJsonBody(responseBody, exchange, json);
 
+        writeJsonBody(responseBody, exchange, json);
     }
 
 }
