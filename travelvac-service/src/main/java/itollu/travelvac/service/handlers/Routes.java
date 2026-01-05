@@ -34,6 +34,7 @@ public class Routes {
                 .get("status", new GetStatus(json))
                 .get("countries/{countryCode}/risks", new GetRisks(riskService, json))
                 .get("countries/{countryCode}/clinics", new GetClinics(clinicService, json))
-                .post("bookings", new PostBooking(bookingService, json));
+                .post("bookings", new PostBooking(bookingService, json))
+                .get("bookings/{bookingId}", new GetBooking(bookingService, json));
     }
 }

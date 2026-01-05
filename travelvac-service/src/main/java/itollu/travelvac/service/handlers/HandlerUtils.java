@@ -24,6 +24,8 @@ public class HandlerUtils {
 
     private static final String COUNTRY_CODE_PATH_PARAM = "countryCode";
 
+    private static final String BOOKING_ID_PATH_PARAM = "bookingId";
+
     static void applyContentTypeJson(HttpServerExchange exchange) {
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, APPLICATION_JSON);
     }
@@ -98,6 +100,15 @@ public class HandlerUtils {
         var countryCodeParam = requirePathParam(COUNTRY_CODE_PATH_PARAM, exchange);
         try {
             return new CountryCode(countryCodeParam);
+        } catch (IllegalDomainValue e) {
+            throw new ClientException(BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    static BookingId parseBookingId(HttpServerExchange exchange) {
+        var bookingIdParam = requirePathParam(BOOKING_ID_PATH_PARAM, exchange);
+        try {
+            return BookingId.parse(bookingIdParam);
         } catch (IllegalDomainValue e) {
             throw new ClientException(BAD_REQUEST, e.getMessage());
         }
