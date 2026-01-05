@@ -32,8 +32,8 @@ public class Routes {
     public RoutingHandler buildRouter() {
         return routing()
                 .get("status", new GetStatus(json))
-                .get("countries/{country}/risks", new GetRisks(riskService, json))
-                .get("countries/{country}/clinics", new GetClinics(clinicService, json))
+                .get("countries/{countryCode}/risks", new GetRisks(riskService, json))
+                .get("countries/{countryCode}/clinics", new GetClinics(clinicService, json))
                 .post("bookings", new PostBooking(bookingService, json));
     }
 }

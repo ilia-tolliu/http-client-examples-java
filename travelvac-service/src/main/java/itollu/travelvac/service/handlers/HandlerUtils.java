@@ -22,7 +22,8 @@ public class HandlerUtils {
 
     private static final String APPLICATION_JSON = "application/json";
 
-    private static final String COUNTRY_PATH_PARAM = "country";
+    private static final String COUNTRY_PATH_PARAM = "countryCode";
+
 
     static void applyContentTypeJson(HttpServerExchange exchange) {
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, APPLICATION_JSON);
