@@ -1,21 +1,19 @@
 package itollu.travelvac.service.app;
 
-import java.util.TimeZone;
-
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.undertow.Undertow;
+import itollu.travelvac.service.adapters.BookingRepositoryInMem;
 import itollu.travelvac.service.adapters.ClinicRepositoryDemo;
 import itollu.travelvac.service.adapters.RiskRepositoryDemo;
+import itollu.travelvac.service.core.BookingService;
 import itollu.travelvac.service.core.ClinicService;
 import itollu.travelvac.service.core.RiskService;
-import itollu.travelvac.service.handlers.Routes;
+import itollu.travelvac.service.handlers.TravelvacHandler;
 
-import static itollu.travelvac.service.handlers.Middleware.withExceptionHandler;
-import static itollu.travelvac.service.handlers.Middleware.withLogging;
-import static itollu.travelvac.service.handlers.Middleware.withRequestId;
+import java.util.TimeZone;
 
 public class TravelvacApp {
 
@@ -28,9 +26,12 @@ public class TravelvacApp {
     var clinicRepository = new ClinicRepositoryDemo();
     var clinicService = new ClinicService(clinicRepository);
 
+    var bookingRepository = new BookingRepositoryInMem();
+    var bookingService = new BookingService(bookingRepository);
+
     JsonMapper json = configureJsonMapper();
 
-    var handler = new TravelvacHandler(json, riskService, clinicService);
+    var handler = new TravelvacHandler(json, riskService, clinicService, bookingService);
 
     Undertow server = Undertow.builder()
       .addHttpListener(8080, "localhost")

@@ -8,6 +8,8 @@ import io.undertow.util.HttpString;
 import io.undertow.util.PathTemplateMatch;
 import itollu.travelvac.service.core.CountryCode;
 import itollu.travelvac.service.core.IllegalDomainValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -15,6 +17,8 @@ import java.util.Objects;
 import static io.undertow.util.StatusCodes.*;
 
 public class HandlerUtils {
+
+    private final static Logger LOG = LoggerFactory.getLogger(HandlerUtils.class);
 
     private static final String APPLICATION_JSON = "application/json";
 
@@ -42,18 +46,26 @@ public class HandlerUtils {
         }
 
         var contentType = contentTypeHeader.getFirst();
+        var contentTypeMain = contentType.split(";")[0];
 
-        if (!contentType.equals("application/json")) {
+        if (!contentTypeMain.equals("application/json")) {
             var message = "Expected Content-Type 'application/json' but got '%s'".formatted(contentType);
             throw new ClientException(UNSUPPORTED_MEDIA_TYPE, message);
         }
     }
 
-    static <T> T readJsonBody(Class<T> targetClass, HttpServerExchange exchange, JsonMapper json) throws IOException {
+    static <T> T readJsonBody(Class<T> targetClass, HttpServerExchange exchange, JsonMapper json) {
         ensureContentTypeJson(exchange);
 
-        try (var bodyStream = exchange.getInputStream()) {
-            return json.readValue(bodyStream, targetClass);
+        try (
+                var inputStream = exchange.getInputStream()
+        ) {
+            return json.readValue(inputStream, targetClass);
+        } catch (IOException e) {
+            // TODO add request id to log
+            LOG.error("Failed to read request body", e);
+            var message = "Failed to read request body: %s".formatted(e.getMessage());
+            throw new ClientException(BAD_REQUEST, message);
         }
     }
 
