@@ -8,14 +8,24 @@ import itollu.travelvac.service.core.BookingService;
 import itollu.travelvac.service.core.ClinicService;
 import itollu.travelvac.service.core.RiskService;
 
+import static io.undertow.Handlers.routing;
 import static itollu.travelvac.service.handlers.Middleware.*;
 
 public class TravelvacHandler implements HttpHandler {
     private final HttpHandler handler;
 
-    public TravelvacHandler(JsonMapper json, RiskService riskService, ClinicService clinicService, BookingService bookingService) {
-        Routes routes = new Routes(json, riskService, clinicService, bookingService);
-        var router = routes.buildRouter();
+    public TravelvacHandler(
+            JsonMapper json,
+            RiskService riskService,
+            ClinicService clinicService,
+            BookingService bookingService
+    ) {
+        var router = routing()
+                .get("status", new GetStatus(json))
+                .get("countries/{countryCode}/risks", new GetRisks(riskService, json))
+                .get("countries/{countryCode}/clinics", new GetClinics(clinicService, json))
+                .post("bookings", new PostBooking(bookingService, json))
+                .get("bookings/{bookingId}", new GetBooking(bookingService, json));
 
         handler = new BlockingHandler(
                 withRequestId(
