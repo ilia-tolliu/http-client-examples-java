@@ -5,6 +5,9 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import itollu.travelvac.service.core.BookingService;
 
+import java.util.Objects;
+
+import static io.undertow.util.StatusCodes.NOT_FOUND;
 import static itollu.travelvac.service.handlers.AuthUtils.authenticate;
 import static itollu.travelvac.service.handlers.HandlerUtils.parseBookingId;
 import static itollu.travelvac.service.handlers.HandlerUtils.writeJsonBody;
@@ -26,6 +29,10 @@ public class GetBooking implements HttpHandler {
         var customerId = authenticate(exchange);
         var bookingId = parseBookingId(exchange);
         var booking = bookingService.getBooking(customerId, bookingId);
+        if (Objects.isNull(booking)) {
+            throw new ClientException(NOT_FOUND, "Booking not found");
+        }
+
         var responseBody = BookingJson.fromBooking(booking);
 
         writeJsonBody(responseBody, exchange, json);
