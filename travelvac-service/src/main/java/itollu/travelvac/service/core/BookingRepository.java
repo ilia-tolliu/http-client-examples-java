@@ -8,5 +8,9 @@ public interface BookingRepository {
 
     List<Booking> getBookings(CustomerId customerId);
 
-    Booking createBooking(NewBooking newBooking);
+    IdempotencyMapping checkInIdempotencyKey(CustomerId customerId, IdempotencyKey idempotencyKey);
+
+    void setIdempotentException(CustomerId customerId, IdempotencyKey idempotencyKey, RuntimeException e);
+
+    Booking createBooking(NewBooking newBooking, IdempotencyKey idempotencyKey);
 }

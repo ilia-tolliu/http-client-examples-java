@@ -1,6 +1,9 @@
 java_library(
   name = "core",
   srcs = glob(["*.java"]),
+  deps = [
+    "@maven//:org_slf4j_slf4j_api",
+  ],
   visibility = [
       "//travelvac-service:__subpackages__",
   ],

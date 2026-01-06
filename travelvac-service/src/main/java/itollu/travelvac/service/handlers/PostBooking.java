@@ -11,8 +11,7 @@ import java.util.List;
 import static io.undertow.util.StatusCodes.BAD_REQUEST;
 import static io.undertow.util.StatusCodes.CREATED;
 import static itollu.travelvac.service.handlers.AuthUtils.authenticate;
-import static itollu.travelvac.service.handlers.HandlerUtils.readJsonBody;
-import static itollu.travelvac.service.handlers.HandlerUtils.writeJsonBody;
+import static itollu.travelvac.service.handlers.HandlerUtils.*;
 
 public class PostBooking implements HttpHandler {
 
@@ -28,9 +27,10 @@ public class PostBooking implements HttpHandler {
     @Override
     public void handleRequest(HttpServerExchange exchange) {
         var customerId = authenticate(exchange);
+        var idempotencyKey = parseOrGenerateIdempotencyKey(exchange);
         var requestBody = readJsonBody(RequestBody.class, exchange, json);
         var newBooking = createNewBooking(customerId, requestBody);
-        var booking = bookingService.bookAppointment(newBooking);
+        var booking = bookingService.bookAppointment(newBooking, idempotencyKey);
         var responseBody = BookingJson.fromBooking(booking);
 
         exchange.setStatusCode(CREATED);
