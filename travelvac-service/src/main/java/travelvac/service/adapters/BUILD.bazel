@@ -1,0 +1,11 @@
+java_library(
+  name = "adapters",
+  srcs = glob(["*.java"]),
+  deps = [
+      "@maven//:org_jetbrains_annotations",
+      "//travelvac-service/src/main/java/travelvac/service/core"
+    ],
+  visibility = [
+      "//travelvac-service:__subpackages__",
+  ],
+)
