@@ -5,18 +5,17 @@ import io.undertow.util.AttachmentKey;
 import travelvac.service.core.CustomerId;
 
 import java.util.Base64;
-import java.util.UUID;
 
 import static io.undertow.util.Headers.AUTHORIZATION;
 import static io.undertow.util.StatusCodes.BAD_REQUEST;
 import static io.undertow.util.StatusCodes.UNAUTHORIZED;
-import static travelvac.service.handlers.HandlerUtils.requireRequestHeader;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static travelvac.service.handlers.HandlerUtils.requireRequestHeader;
 
 public class AuthUtils {
     static final AttachmentKey<CustomerId> CUSTOMER_ID_KEY = AttachmentKey.create(CustomerId.class);
 
-    static final String TEST_CUSTOMER_ID = "CUST_ee309435-675b-4d82-9e81-c13715c1b47a";
+    static final String TEST_CUSTOMER_ID = "CUS-ee309435-675b-4d82-9e81-c13715c1b47a";
 
     static final String TEST_CUSTOMER_SECRET = "mandarines-under-cover";
 
@@ -53,14 +52,7 @@ public class AuthUtils {
             throw new ClientException(UNAUTHORIZED, "Wrong credentials");
         }
 
-        return parseCustomerId(credentials.key);
-    }
-
-    private static CustomerId parseCustomerId(String credentialKey) {
-        var prefix = "CUST_";
-        var idString = credentialKey.substring(prefix.length());
-        var uuid = UUID.fromString(idString);
-        return new CustomerId(uuid);
+        return CustomerId.parse(credentials.key);
     }
 
     private record Credentials(
