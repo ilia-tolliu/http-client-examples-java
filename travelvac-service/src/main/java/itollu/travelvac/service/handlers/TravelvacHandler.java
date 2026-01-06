@@ -18,34 +18,34 @@ public class TravelvacHandler implements HttpHandler {
     private final HttpHandler handler;
 
     public TravelvacHandler(
-            JsonMapper json,
-            RiskService riskService,
-            ClinicService clinicService,
-            BookingService bookingService
+        JsonMapper json,
+        RiskService riskService,
+        ClinicService clinicService,
+        BookingService bookingService
     ) {
         var encodingRepository = new ContentEncodingRepository();
         encodingRepository.addEncodingHandler("gzip", new GzipEncodingProvider(), 0);
 
         var router = routing()
-                .get("status", new GetStatus(json))
-                .get("countries/{countryCode}/risks", new GetRisks(riskService, json))
-                .get("countries/{countryCode}/clinics", new GetClinics(clinicService, json))
-                .post("bookings", new PostBooking(bookingService, json))
-                .get("bookings", new GetBookings(bookingService, json))
-                .get("bookings/{bookingId}", new GetBooking(bookingService, json));
+            .get("status", new GetStatus(json))
+            .get("countries/{countryCode}/risks", new GetRisks(riskService, json))
+            .get("countries/{countryCode}/clinics", new GetClinics(clinicService, json))
+            .post("bookings", new PostBooking(bookingService, json))
+            .get("bookings", new GetBookings(bookingService, json))
+            .get("bookings/{bookingId}", new GetBooking(bookingService, json));
 
         handler = new BlockingHandler(
-                withRequestId(
-                        new EncodingHandler(
-                                withExceptionHandler(
-                                        json,
-                                        withLogging(
-                                                router
-                                        )
-                                ),
-                                encodingRepository
+            withRequestId(
+                new EncodingHandler(
+                    withExceptionHandler(
+                        json,
+                        withLogging(
+                            router
                         )
+                    ),
+                    encodingRepository
                 )
+            )
         );
     }
 
