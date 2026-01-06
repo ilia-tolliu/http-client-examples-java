@@ -6,7 +6,9 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
 import io.undertow.util.PathTemplateMatch;
+import itollu.travelvac.service.core.BookingId;
 import itollu.travelvac.service.core.CountryCode;
+import itollu.travelvac.service.core.IdempotencyKey;
 import itollu.travelvac.service.core.IllegalDomainValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +16,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Objects;
 
+import static io.undertow.util.Headers.AUTHORIZATION;
 import static io.undertow.util.StatusCodes.*;
 
 public class HandlerUtils {
 
     private final static Logger LOG = LoggerFactory.getLogger(HandlerUtils.class);
+
+    private static final HttpString IDEMPOTENCY_KEY_HEADER = HttpString.tryFromString("Idempotency-Key");
 
     private static final String APPLICATION_JSON = "application/json";
 
@@ -72,10 +77,20 @@ public class HandlerUtils {
     }
 
     static String requireRequestHeader(HttpString headerName, HttpServerExchange exchange) {
+        var headerValue = optionalRequestHeader(headerName, exchange);
+        if (Objects.isNull(headerValue)) {
+            var message = "%s header is required".formatted(headerName);
+            var statusCode = AUTHORIZATION.equals(headerName) ? UNAUTHORIZED : BAD_REQUEST;
+            throw new ClientException(statusCode, message);
+        }
+
+        return headerValue;
+    }
+
+    static String optionalRequestHeader(HttpString headerName, HttpServerExchange exchange) {
         var headerValues = exchange.getRequestHeaders().get(headerName);
         if (Objects.isNull(headerValues) || headerValues.isEmpty()) {
-            var message = "%s header is required".formatted(headerName);
-            throw new ClientException(UNAUTHORIZED, message);
+            return null;
         }
 
         return headerValues.getFirst();
@@ -113,4 +128,18 @@ public class HandlerUtils {
             throw new ClientException(BAD_REQUEST, e.getMessage());
         }
     }
+
+    static IdempotencyKey parseOrGenerateIdempotencyKey(HttpServerExchange exchange) {
+        var headerValue = optionalRequestHeader(IDEMPOTENCY_KEY_HEADER, exchange);
+        if (Objects.isNull(headerValue)) {
+            return IdempotencyKey.generate();
+        }
+
+        try {
+            return IdempotencyKey.parse(headerValue);
+        } catch (IllegalDomainValue e) {
+            throw new ClientException(BAD_REQUEST, e.getMessage());
+        }
+    }
+
 }
