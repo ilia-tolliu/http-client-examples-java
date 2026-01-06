@@ -4,9 +4,6 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.BlockingHandler;
-import io.undertow.server.handlers.encoding.ContentEncodingRepository;
-import io.undertow.server.handlers.encoding.EncodingHandler;
-import io.undertow.server.handlers.encoding.GzipEncodingProvider;
 import itollu.travelvac.service.core.BookingService;
 import itollu.travelvac.service.core.ClinicService;
 import itollu.travelvac.service.core.RiskService;
@@ -23,9 +20,6 @@ public class TravelvacHandler implements HttpHandler {
         ClinicService clinicService,
         BookingService bookingService
     ) {
-        var encodingRepository = new ContentEncodingRepository();
-        encodingRepository.addEncodingHandler("gzip", new GzipEncodingProvider(), 0);
-
         var router = routing()
             .get("status", new GetStatus(json))
             .get("countries/{countryCode}/risks", new GetRisks(riskService, json))
@@ -36,14 +30,13 @@ public class TravelvacHandler implements HttpHandler {
 
         handler = new BlockingHandler(
             withRequestId(
-                new EncodingHandler(
+                withGzipEncoding(
                     withExceptionHandler(
                         json,
                         withLogging(
                             router
                         )
-                    ),
-                    encodingRepository
+                    )
                 )
             )
         );

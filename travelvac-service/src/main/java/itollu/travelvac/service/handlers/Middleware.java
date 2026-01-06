@@ -2,6 +2,9 @@ package itollu.travelvac.service.handlers;
 
 import java.util.UUID;
 
+import io.undertow.server.handlers.encoding.ContentEncodingRepository;
+import io.undertow.server.handlers.encoding.EncodingHandler;
+import io.undertow.server.handlers.encoding.GzipEncodingProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +47,13 @@ public class Middleware {
 
       handler.handleRequest(exchange);
     };
+  }
+
+  public static HttpHandler withGzipEncoding(HttpHandler handler) {
+    var encodingRepository = new ContentEncodingRepository();
+    encodingRepository.addEncodingHandler("gzip", new GzipEncodingProvider(), 0);
+
+    return new EncodingHandler(handler, encodingRepository);
   }
 
   public record RequestId(String value) {
