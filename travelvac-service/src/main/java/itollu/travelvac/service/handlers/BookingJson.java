@@ -7,7 +7,6 @@ import java.util.List;
 
 record BookingJson (
     String bookingId,
-    String customerId,
     String reference,
     String clinicId,
     List<String> infections,
@@ -16,7 +15,6 @@ record BookingJson (
     static BookingJson fromBooking(Booking booking) {
         return new BookingJson(
                 booking.bookingId().format(),
-                booking.customerId().format(),
                 booking.reference(),
                 booking.clinicId().format(),
                 booking.infections(),

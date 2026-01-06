@@ -25,6 +25,7 @@ public class TravelvacHandler implements HttpHandler {
                 .get("countries/{countryCode}/risks", new GetRisks(riskService, json))
                 .get("countries/{countryCode}/clinics", new GetClinics(clinicService, json))
                 .post("bookings", new PostBooking(bookingService, json))
+                .get("bookings", new GetBookings(bookingService, json))
                 .get("bookings/{bookingId}", new GetBooking(bookingService, json));
 
         handler = new BlockingHandler(

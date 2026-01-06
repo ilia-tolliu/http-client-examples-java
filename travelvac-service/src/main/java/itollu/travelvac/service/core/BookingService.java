@@ -1,5 +1,7 @@
 package itollu.travelvac.service.core;
 
+import java.util.List;
+
 public class BookingService {
 
     private final BookingRepository bookingRepository;
@@ -15,5 +17,9 @@ public class BookingService {
 
     public Booking getBooking(CustomerId customerId, BookingId bookingId) {
         return bookingRepository.getBooking(customerId, bookingId);
+    }
+
+    public List<Booking> getBookings(CustomerId customerId) {
+        return bookingRepository.getBookings(customerId);
     }
 }

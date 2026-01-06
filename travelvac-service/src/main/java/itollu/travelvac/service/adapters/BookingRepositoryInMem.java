@@ -3,6 +3,7 @@ package itollu.travelvac.service.adapters;
 import itollu.travelvac.service.core.*;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,6 +14,14 @@ public class BookingRepositoryInMem implements BookingRepository {
     public Booking getBooking(CustomerId customerId, BookingId bookingId) {
         var key = new Key(customerId, bookingId);
         return bookings.get(key);
+    }
+
+    @Override
+    public List<Booking> getBookings(CustomerId customerId) {
+        return bookings.values()
+                .stream()
+                .filter(booking -> booking.customerId().equals(customerId))
+                .toList();
     }
 
     @Override
@@ -38,5 +47,6 @@ public class BookingRepositoryInMem implements BookingRepository {
     private record Key(
             CustomerId customerId,
             BookingId bookingId
-    ) {}
+    ) {
+    }
 }
