@@ -11,6 +11,7 @@ maven.install(
         "com.fasterxml.jackson.core:jackson-databind:%s" % VERSION_JACKSON,
         "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:%s" % VERSION_JACKSON,
         "io.undertow:undertow-core:2.3.20.Final",
+        "org.jetbrains:annotations:26.0.2-1",
         "org.slf4j:slf4j-api:2.0.17"
     ],
     repositories = [
