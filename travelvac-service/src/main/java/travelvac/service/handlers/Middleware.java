@@ -14,6 +14,7 @@ import io.undertow.server.handlers.ExceptionHandler;
 import io.undertow.server.handlers.accesslog.AccessLogHandler;
 import io.undertow.util.AttachmentKey;
 import io.undertow.util.HttpString;
+import travelvac.service.ratelimiter.RateLimitExhaustedException;
 
 public class Middleware {
   public static final HttpString REQUEST_ID_HEADER = new HttpString("X-Request-Id");
@@ -33,6 +34,7 @@ public class Middleware {
   public static ExceptionHandler withExceptionHandler(JsonMapper json, HttpHandler handler) {
     var exceptionHandler = new ExceptionHandler(handler);
 
+    exceptionHandler.addExceptionHandler(RateLimitExhaustedException.class, new RateLimitExceptionHandler());
     exceptionHandler.addExceptionHandler(ClientException.class, new ClientExceptionHandler(json));
     exceptionHandler.addExceptionHandler(Throwable.class, new InternalServerErrorHandler());
 

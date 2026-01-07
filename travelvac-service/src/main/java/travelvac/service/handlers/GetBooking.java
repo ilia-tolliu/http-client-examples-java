@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import travelvac.service.core.BookingService;
+import travelvac.service.ratelimiter.RateLimiter;
 
 import java.util.Objects;
 
@@ -18,15 +19,19 @@ public class GetBooking implements HttpHandler {
 
     private final JsonMapper json;
 
-    public GetBooking(BookingService bookingService, JsonMapper json) {
+    private final RateLimiter rateLimiter;
+
+    public GetBooking(BookingService bookingService, JsonMapper json, RateLimiter rateLimiter) {
         this.bookingService = bookingService;
         this.json = json;
+        this.rateLimiter = rateLimiter;
     }
 
 
     @Override
     public void handleRequest(HttpServerExchange exchange) {
         var customerId = authenticate(exchange);
+        rateLimiter.checkIn(customerId.format());
         var bookingId = parseBookingId(exchange);
         var booking = bookingService.getBooking(customerId, bookingId);
         if (Objects.isNull(booking)) {

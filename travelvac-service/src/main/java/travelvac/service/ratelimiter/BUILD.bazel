@@ -1,0 +1,7 @@
+java_library(
+  name = "ratelimiter",
+  srcs = glob(["*.java"]),
+  visibility = [
+      "//travelvac-service:__subpackages__",
+  ],
+)

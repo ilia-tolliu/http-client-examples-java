@@ -7,6 +7,9 @@ import io.undertow.server.handlers.BlockingHandler;
 import travelvac.service.core.BookingService;
 import travelvac.service.core.ClinicService;
 import travelvac.service.core.RiskService;
+import travelvac.service.ratelimiter.RateLimiter;
+
+import java.time.Duration;
 
 import static io.undertow.Handlers.routing;
 import static travelvac.service.handlers.Middleware.*;
@@ -20,13 +23,15 @@ public class TravelvacHandler implements HttpHandler {
         ClinicService clinicService,
         BookingService bookingService
     ) {
+        var rateLimiter = new RateLimiter(5, Duration.ofMinutes(1));
+
         var router = routing()
             .get("status", new GetStatus(json))
-            .get("countries/{countryCode}/risks", new GetRisks(riskService, json))
-            .get("countries/{countryCode}/clinics", new GetClinics(clinicService, json))
-            .post("bookings", new PostBooking(bookingService, json))
-            .get("bookings", new GetBookings(bookingService, json))
-            .get("bookings/{bookingId}", new GetBooking(bookingService, json));
+            .get("countries/{countryCode}/risks", new GetRisks(riskService, json, rateLimiter))
+            .get("countries/{countryCode}/clinics", new GetClinics(clinicService, json, rateLimiter))
+            .post("bookings", new PostBooking(bookingService, json, rateLimiter))
+            .get("bookings", new GetBookings(bookingService, json, rateLimiter))
+            .get("bookings/{bookingId}", new GetBooking(bookingService, json, rateLimiter));
 
         handler = new BlockingHandler(
             withRequestId(

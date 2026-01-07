@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import travelvac.service.core.*;
+import travelvac.service.ratelimiter.RateLimiter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,18 +16,22 @@ import static travelvac.service.handlers.HandlerUtils.*;
 
 public class PostBooking implements HttpHandler {
 
-    private final JsonMapper json;
-
     private final BookingService bookingService;
 
-    public PostBooking(BookingService bookingService, JsonMapper json) {
+    private final JsonMapper json;
+
+    private final RateLimiter rateLimiter;
+
+    public PostBooking(BookingService bookingService, JsonMapper json, RateLimiter rateLimiter) {
         this.json = json;
         this.bookingService = bookingService;
+        this.rateLimiter = rateLimiter;
     }
 
     @Override
     public void handleRequest(HttpServerExchange exchange) {
         var customerId = authenticate(exchange);
+        rateLimiter.checkIn(customerId.format());
         var idempotencyKey = parseOrGenerateIdempotencyKey(exchange);
         var requestBody = readJsonBody(RequestBody.class, exchange, json);
         var newBooking = createNewBooking(customerId, requestBody);
