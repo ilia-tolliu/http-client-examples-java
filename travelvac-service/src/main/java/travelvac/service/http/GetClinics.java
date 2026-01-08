@@ -32,8 +32,11 @@ public class GetClinics implements HttpHandler {
         rateLimiter.checkIn(customerId.format());
         var country = parseCountryCode(exchange);
         var clinics = clinicService.getClinics(customerId, country);
+        var clinicJsons = clinics.stream()
+          .map(ClinicJson::fromClinic)
+          .toList();
         var responseBody = Map.of(
-                "clinics", clinics
+                "clinics", clinicJsons
         );
         writeJsonBody(responseBody, exchange, json);
 
