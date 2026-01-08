@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import travelvac.service.core.Booking;
 

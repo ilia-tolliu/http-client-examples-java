@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;

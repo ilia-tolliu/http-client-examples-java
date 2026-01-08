@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.AttachmentKey;
@@ -10,7 +10,7 @@ import static io.undertow.util.Headers.AUTHORIZATION;
 import static io.undertow.util.StatusCodes.BAD_REQUEST;
 import static io.undertow.util.StatusCodes.UNAUTHORIZED;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static travelvac.service.handlers.HandlerUtils.requireRequestHeader;
+import static travelvac.service.http.HandlerUtils.requireRequestHeader;
 
 public class AuthUtils {
     static final AttachmentKey<CustomerId> CUSTOMER_ID_KEY = AttachmentKey.create(CustomerId.class);

@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import java.time.Instant;
 import java.util.Map;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 
-import static travelvac.service.handlers.HandlerUtils.applyContentTypeJson;
+import static travelvac.service.http.HandlerUtils.applyContentTypeJson;
 
 public class GetStatus implements HttpHandler {
   private final JsonMapper json;

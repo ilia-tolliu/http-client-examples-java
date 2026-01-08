@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;

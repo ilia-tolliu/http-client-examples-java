@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.undertow.server.HttpHandler;
@@ -9,9 +9,9 @@ import travelvac.service.ratelimiter.RateLimiter;
 import java.util.Objects;
 
 import static io.undertow.util.StatusCodes.NOT_FOUND;
-import static travelvac.service.handlers.AuthUtils.authenticate;
-import static travelvac.service.handlers.HandlerUtils.parseBookingId;
-import static travelvac.service.handlers.HandlerUtils.writeJsonBody;
+import static travelvac.service.http.AuthUtils.authenticate;
+import static travelvac.service.http.HandlerUtils.parseBookingId;
+import static travelvac.service.http.HandlerUtils.writeJsonBody;
 
 public class GetBooking implements HttpHandler {
 

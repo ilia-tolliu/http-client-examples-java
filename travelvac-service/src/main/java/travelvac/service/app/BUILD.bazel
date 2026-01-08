@@ -7,7 +7,7 @@ java_library(
     "@maven//:io_undertow_undertow_core",
     "//travelvac-service/src/main/java/travelvac/service/adapters",
     "//travelvac-service/src/main/java/travelvac/service/core",
-    "//travelvac-service/src/main/java/travelvac/service/handlers",
+    "//travelvac-service/src/main/java/travelvac/service/http",
   ],
   visibility = [
     "//travelvac-service:__pkg__",

@@ -11,7 +11,7 @@ import travelvac.service.adapters.RiskRepositoryDemo;
 import travelvac.service.core.BookingService;
 import travelvac.service.core.ClinicService;
 import travelvac.service.core.RiskService;
-import travelvac.service.handlers.TravelvacHandler;
+import travelvac.service.http.TravelvacHandler;
 
 import java.util.TimeZone;
 

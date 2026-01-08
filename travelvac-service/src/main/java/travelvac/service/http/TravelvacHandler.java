@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.undertow.server.HttpHandler;
@@ -12,7 +12,7 @@ import travelvac.service.ratelimiter.RateLimiter;
 import java.time.Duration;
 
 import static io.undertow.Handlers.routing;
-import static travelvac.service.handlers.Middleware.*;
+import static travelvac.service.http.Middleware.*;
 
 public class TravelvacHandler implements HttpHandler {
     private final HttpHandler handler;

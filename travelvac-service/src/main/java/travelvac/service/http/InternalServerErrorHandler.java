@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.ExceptionHandler;
 
-import static travelvac.service.handlers.HandlerUtils.applyContentTypeJson;
+import static travelvac.service.http.HandlerUtils.applyContentTypeJson;
 
 public class InternalServerErrorHandler implements HttpHandler {
 

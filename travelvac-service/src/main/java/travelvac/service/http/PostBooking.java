@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.undertow.server.HttpHandler;
@@ -11,8 +11,8 @@ import java.util.List;
 
 import static io.undertow.util.StatusCodes.BAD_REQUEST;
 import static io.undertow.util.StatusCodes.CREATED;
-import static travelvac.service.handlers.AuthUtils.authenticate;
-import static travelvac.service.handlers.HandlerUtils.*;
+import static travelvac.service.http.AuthUtils.authenticate;
+import static travelvac.service.http.HandlerUtils.*;
 
 public class PostBooking implements HttpHandler {
 

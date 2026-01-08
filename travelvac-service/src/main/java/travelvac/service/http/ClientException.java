@@ -1,4 +1,4 @@
-package travelvac.service.handlers;
+package travelvac.service.http;
 
 public class ClientException extends RuntimeException {
     private final int statusCode;
