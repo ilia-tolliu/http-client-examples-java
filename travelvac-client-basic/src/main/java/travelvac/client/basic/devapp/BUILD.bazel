@@ -1,0 +1,11 @@
+java_library(
+  name = "devapp",
+  srcs = glob(["*.java"]),
+  deps = [
+    "@maven//:org_slf4j_slf4j_api",
+    "//travelvac-client-basic/src/main/java/travelvac/client/basic",
+  ],
+  visibility = [
+    "//travelvac-client-basic:__pkg__",
+  ],
+)

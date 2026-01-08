@@ -1,0 +1,7 @@
+java_library(
+  name = "basic",
+  srcs = glob(["*.java"]),
+  visibility = [
+    "//travelvac-client-basic:__subpackages__",
+  ],
+)

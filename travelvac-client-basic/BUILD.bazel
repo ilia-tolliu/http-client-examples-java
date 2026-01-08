@@ -1,0 +1,12 @@
+package(default_visibility = ["//visibility:private"])
+
+# build executable fat jar with: `bazel build //travelvac-service:travelvac-service_deploy.jar`
+java_binary(
+  name = "travelvac-client-basic",
+  runtime_deps = [
+    "@maven//:ch_qos_logback_logback_classic",
+    "//travelvac-client-basic/src/main/java/travelvac/client/basic/devapp",
+    "//travelvac-client-basic/src/main/resources",
+  ],
+  main_class = "travelvac.client.basic.devapp.TravelvacBasicDevApp",
+)
