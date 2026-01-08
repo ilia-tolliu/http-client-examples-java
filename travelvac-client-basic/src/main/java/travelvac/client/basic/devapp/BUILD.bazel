@@ -4,6 +4,7 @@ java_library(
   deps = [
     "@maven//:org_slf4j_slf4j_api",
     "//travelvac-client-basic/src/main/java/travelvac/client/basic",
+    "//travelvac-client-basic/src/main/java/travelvac/client/basic/types",
   ],
   visibility = [
     "//travelvac-client-basic:__pkg__",

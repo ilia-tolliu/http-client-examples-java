@@ -1,6 +1,12 @@
 java_library(
   name = "basic",
   srcs = glob(["*.java"]),
+  deps = [
+    "@maven//:com_fasterxml_jackson_core_jackson_core",
+    "@maven//:com_fasterxml_jackson_core_jackson_databind",
+    "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
+    "//travelvac-client-basic/src/main/java/travelvac/client/basic/types",
+  ],
   visibility = [
     "//travelvac-client-basic:__subpackages__",
   ],
