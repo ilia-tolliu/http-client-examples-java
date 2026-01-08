@@ -3,6 +3,7 @@ package travelvac.service.http;
 import travelvac.service.core.Booking;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 record BookingJson (
@@ -10,6 +11,7 @@ record BookingJson (
     String reference,
     String clinicId,
     List<String> infections,
+    LocalDateTime scheduledAt,
     Instant createdAt
 ) {
     static BookingJson fromBooking(Booking booking) {
@@ -18,6 +20,7 @@ record BookingJson (
                 booking.reference(),
                 booking.clinicId().format(),
                 booking.infections(),
+                booking.scheduledAt(),
                 booking.createdAt()
         );
     }

@@ -59,6 +59,7 @@ public class BookingRepositoryInMem implements BookingRepository {
                     newBooking.reference(),
                     newBooking.clinicId(),
                     newBooking.infections(),
+                    newBooking.scheduledAt(),
                     Instant.now()
             );
             bookings.put(bookingKey, booking);
