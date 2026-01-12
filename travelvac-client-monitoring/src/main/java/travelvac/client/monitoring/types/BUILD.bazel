@@ -1,0 +1,7 @@
+java_library(
+  name = "types",
+  srcs = glob(["*.java"]),
+  visibility = [
+    "//travelvac-client-monitoring:__subpackages__",
+  ],
+)

@@ -1,0 +1,7 @@
+java_library(
+  name = "resources",
+  resources = glob(["*"]),
+    visibility = [
+      "//travelvac-client-monitoring:__pkg__",
+    ],
+)

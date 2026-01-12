@@ -1,0 +1,15 @@
+java_library(
+  name = "monitoring",
+  srcs = glob(["*.java"]),
+  deps = [
+    "@maven//:com_fasterxml_jackson_core_jackson_core",
+    "@maven//:com_fasterxml_jackson_core_jackson_databind",
+    "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
+    "@maven//:io_micrometer_micrometer_core",
+    "@maven//:io_micrometer_micrometer_registry_prometheus",
+    "//travelvac-client-monitoring/src/main/java/travelvac/client/monitoring/types",
+  ],
+  visibility = [
+    "//travelvac-client-monitoring:__subpackages__",
+  ],
+)
