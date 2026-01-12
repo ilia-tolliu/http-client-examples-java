@@ -7,6 +7,8 @@ java_library(
     "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
     "@maven//:io_micrometer_micrometer_core",
     "@maven//:io_micrometer_micrometer_registry_prometheus",
+    "@maven//:org_jetbrains_annotations",
+    "@maven//:org_slf4j_slf4j_api",
     "//travelvac-client-monitoring/src/main/java/travelvac/client/monitoring/types",
   ],
   visibility = [
