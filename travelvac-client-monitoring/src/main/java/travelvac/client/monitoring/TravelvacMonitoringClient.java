@@ -1,12 +1,6 @@
 package travelvac.client.monitoring;
 
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.micrometer.core.instrument.Tags;
-import io.micrometer.core.instrument.Timer;
-import io.micrometer.core.instrument.Timer.Sample;
-import travelvac.client.monitoring.types.*;
-
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -14,6 +8,20 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.micrometer.core.instrument.Tags;
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.Timer.Sample;
+import travelvac.client.monitoring.types.Booking;
+import travelvac.client.monitoring.types.Clinic;
+import travelvac.client.monitoring.types.GetBookingsResponse;
+import travelvac.client.monitoring.types.GetClinicsResponse;
+import travelvac.client.monitoring.types.GetRisksResponse;
+import travelvac.client.monitoring.types.NewBooking;
+import travelvac.client.monitoring.types.Risk;
 
 import static java.net.http.HttpRequest.BodyPublishers;
 import static java.net.http.HttpRequest.newBuilder;
@@ -155,7 +163,7 @@ public class TravelvacMonitoringClient {
         return response;
       }
       throw new HttpException(statusCode);
-    } catch (Exception e) {
+    } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
   }
@@ -164,7 +172,7 @@ public class TravelvacMonitoringClient {
     var json = getJsonMapper();
     try {
       return json.readValue(response.body(), targetClass);
-    } catch (Exception e) {
+    } catch (JsonProcessingException e) {
       throw new ResponseReadException(response.statusCode(), e);
     }
   }
