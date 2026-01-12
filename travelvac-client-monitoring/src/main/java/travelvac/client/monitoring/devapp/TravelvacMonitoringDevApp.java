@@ -11,6 +11,8 @@ import travelvac.client.monitoring.TravelvacMonitoringClient;
 import travelvac.client.monitoring.TravelvacMonitoringClientConfig;
 import travelvac.client.monitoring.types.NewBooking;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class TravelvacMonitoringDevApp {
 
   private static final Logger LOG = LoggerFactory.getLogger(TravelvacMonitoringDevApp.class);
@@ -27,27 +29,50 @@ public class TravelvacMonitoringDevApp {
     var config = new TravelvacMonitoringClientConfig(API_KEY, BASE_URL);
     var client = new TravelvacMonitoringClient(config);
 
-    LOG.info("GET /countries/{countryCode}/risks");
-    var risks = client.getRisks("TGO");
-    LOG.info("Risks: {}", risks);
+    var clientLoad = new Thread(() -> {
+      while (true) {
+        try {
+          SECONDS.sleep(1);
 
-    LOG.info("GET /countries/{countryCode}/clinics");
-    var clinics = client.getClinics("SWE");
-    LOG.info("Clinics: {}", clinics);
+          LOG.info("GET /countries/{countryCode}/risks");
+          var risks = client.getRisks("TGO");
+          LOG.info("Risks: {}", risks);
 
-    LOG.info("POST /bookings");
-    var newBooking = new NewBooking("booking001", "CLC-2950268c-d0bd-4779-b314-35227f949c50", LocalDateTime.parse("2026-01-25T13:25:00"), List.of("Hepatitis A"));
-    var booking = client.postBooking(newBooking);
-    LOG.info("Booking: {}", booking);
+          SECONDS.sleep(1);
 
-    LOG.info("GET /bookings");
-    var bookings = client.getBookings();
-    LOG.info("Bookings: {}", bookings);
+          LOG.info("GET /countries/{countryCode}/clinics");
+          var clinics = client.getClinics("SWE");
+          LOG.info("Clinics: {}", clinics);
 
-    LOG.info("GET /bookings/{bookingId}");
-    var bookingById = client.getBooking(booking.bookingId());
-    LOG.info("Booking by ID: {}", bookingById);
+          SECONDS.sleep(1);
+
+          LOG.info("POST /bookings");
+          var newBooking = new NewBooking("booking001", "CLC-2950268c-d0bd-4779-b314-35227f949c50", LocalDateTime.parse("2026-01-25T13:25:00"), List.of("Hepatitis A"));
+          var booking = client.postBooking(newBooking);
+          LOG.info("Booking: {}", booking);
+
+          SECONDS.sleep(1);
+
+          LOG.info("GET /bookings");
+          var bookings = client.getBookings();
+          LOG.info("Bookings: {}", bookings);
+
+          SECONDS.sleep(1);
+
+          LOG.info("GET /bookings/{bookingId}");
+          var bookingById = client.getBooking(booking.bookingId());
+          LOG.info("Booking by ID: {}", bookingById);
+        } catch (Exception e) {
+          if (e instanceof InterruptedException) {
+            return;
+          }
+          LOG.error("Failed to run integration", e);
+        }
+      }
+    });
+    clientLoad.start();
 
     metricsServerThread.join();
+    clientLoad.join();
   }
 }
