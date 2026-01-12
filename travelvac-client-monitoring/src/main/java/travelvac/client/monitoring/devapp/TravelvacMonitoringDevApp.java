@@ -11,6 +11,7 @@ import travelvac.client.monitoring.TravelvacMonitoringClient;
 import travelvac.client.monitoring.TravelvacMonitoringClientConfig;
 import travelvac.client.monitoring.types.NewBooking;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TravelvacMonitoringDevApp {
@@ -32,32 +33,32 @@ public class TravelvacMonitoringDevApp {
     var clientLoad = new Thread(() -> {
       while (true) {
         try {
-          SECONDS.sleep(1);
+          MILLISECONDS.sleep(100);
 
           LOG.info("GET /countries/{countryCode}/risks");
           var risks = client.getRisks("TGO");
           LOG.info("Risks: {}", risks);
 
-          SECONDS.sleep(1);
+          MILLISECONDS.sleep(100);
 
           LOG.info("GET /countries/{countryCode}/clinics");
           var clinics = client.getClinics("SWE");
           LOG.info("Clinics: {}", clinics);
 
-          SECONDS.sleep(1);
+          MILLISECONDS.sleep(100);
 
           LOG.info("POST /bookings");
           var newBooking = new NewBooking("booking001", "CLC-2950268c-d0bd-4779-b314-35227f949c50", LocalDateTime.parse("2026-01-25T13:25:00"), List.of("Hepatitis A"));
           var booking = client.postBooking(newBooking);
           LOG.info("Booking: {}", booking);
 
-          SECONDS.sleep(1);
+          MILLISECONDS.sleep(100);
 
           LOG.info("GET /bookings");
           var bookings = client.getBookings();
           LOG.info("Bookings: {}", bookings);
 
-          SECONDS.sleep(1);
+          MILLISECONDS.sleep(100);
 
           LOG.info("GET /bookings/{bookingId}");
           var bookingById = client.getBooking(booking.bookingId());
