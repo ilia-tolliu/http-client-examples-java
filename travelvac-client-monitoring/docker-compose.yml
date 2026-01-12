@@ -6,6 +6,9 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      - monitoring
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana
@@ -16,3 +19,9 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    external: true
