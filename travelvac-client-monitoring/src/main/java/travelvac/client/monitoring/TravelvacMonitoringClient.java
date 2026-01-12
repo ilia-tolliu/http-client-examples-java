@@ -43,6 +43,7 @@ public class TravelvacMonitoringClient {
         .GET()
         .header("Authorization", "Basic " + config.apiKey())
         .uri(URI.create("%s/countries/%s/risks".formatted(config.baseUrl(), countryCode)))
+        .timeout(config.getRisksTimeout())
         .build();
 
       var response = sendRequest(request);
@@ -64,6 +65,7 @@ public class TravelvacMonitoringClient {
         .GET()
         .header("Authorization", "Basic " + config.apiKey())
         .uri(URI.create("%s/countries/%s/clinics".formatted(config.baseUrl(), countryCode)))
+        .timeout(config.getClinicsTimeout())
         .build();
 
       var response = sendRequest(request);
@@ -88,6 +90,7 @@ public class TravelvacMonitoringClient {
         .header("Authorization", "Basic " + config.apiKey())
         .header("Content-Type", "application/json")
         .uri(URI.create("%s/bookings".formatted(config.baseUrl())))
+        .timeout(config.postBookingTimeout())
         .build();
 
       var response = sendRequest(request);
@@ -109,6 +112,7 @@ public class TravelvacMonitoringClient {
         .GET()
         .header("Authorization", "Basic " + config.apiKey())
         .uri(URI.create("%s/bookings".formatted(config.baseUrl())))
+        .timeout(config.getBookingsTimeout())
         .build();
 
       var response = sendRequest(request);
@@ -130,6 +134,7 @@ public class TravelvacMonitoringClient {
         .GET()
         .header("Authorization", "Basic " + config.apiKey())
         .uri(URI.create("%s/bookings/%s".formatted(config.baseUrl(), bookingId)))
+        .timeout(config.postBookingTimeout())
         .build();
 
       var response = sendRequest(request);
@@ -165,7 +170,9 @@ public class TravelvacMonitoringClient {
   }
 
   HttpClient getHttpClient() {
-    return HttpClient.newHttpClient();
+    return HttpClient.newBuilder()
+      .connectTimeout(config.connectTimeout())
+      .build();
   }
 
   JsonMapper getJsonMapper() {

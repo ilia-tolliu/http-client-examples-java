@@ -1,5 +1,6 @@
 package travelvac.client.monitoring.devapp;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import travelvac.client.monitoring.TravelvacMonitoringClientConfig;
 import travelvac.client.monitoring.types.NewBooking;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TravelvacMonitoringDevApp {
 
@@ -27,7 +27,16 @@ public class TravelvacMonitoringDevApp {
     var metricsServer = new MetricsServer();
     var metricsServerThread = metricsServer.run();
 
-    var config = new TravelvacMonitoringClientConfig(API_KEY, BASE_URL);
+    var config = new TravelvacMonitoringClientConfig(
+      API_KEY,
+      BASE_URL,
+      Duration.ofMillis(300),
+      Duration.ofMillis(100),
+      Duration.ofMillis(100),
+      Duration.ofMillis(100),
+      Duration.ofMillis(100),
+      Duration.ofMillis(100)
+    );
     var client = new TravelvacMonitoringClient(config);
 
     var clientLoad = new Thread(() -> {
