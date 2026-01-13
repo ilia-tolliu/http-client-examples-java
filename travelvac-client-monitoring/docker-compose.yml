@@ -14,7 +14,8 @@ services:
     image: grafana/grafana
     container_name: grafana
     volumes:
-      - $PWD/grafana:/var/lib/grafana
+#      - grafana-data:/var/lib/grafana
+      - $PWD/grafana:/etc/grafana/provisioning
     ports:
       - "3000:3000"
     environment:
@@ -28,3 +29,6 @@ services:
 networks:
   monitoring:
     driver: bridge
+
+volumes:
+  grafana-data:
