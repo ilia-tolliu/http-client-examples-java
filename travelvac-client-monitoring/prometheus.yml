@@ -4,4 +4,4 @@ global:
 scrape_configs:
   - job_name: "prometheus"
     static_configs:
-      - targets: ["10.17.13.18:9990"]
+      - targets: ["host.docker.internal:9990"]
