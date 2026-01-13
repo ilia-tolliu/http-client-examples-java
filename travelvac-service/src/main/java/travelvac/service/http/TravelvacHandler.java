@@ -23,7 +23,7 @@ public class TravelvacHandler implements HttpHandler {
         ClinicService clinicService,
         BookingService bookingService
     ) {
-        var rateLimiter = new RateLimiter(500, Duration.ofMinutes(1));
+        var rateLimiter = new RateLimiter(300, Duration.ofMinutes(1));
 
         var router = routing()
             .get("status", new GetStatus(json))
